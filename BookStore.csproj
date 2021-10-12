@@ -1,0 +1,106 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20190120200024_BookCreationAndSeeding.cs" />
+    <Compile Remove="Data\Migrations\20190120200024_BookCreationAndSeeding.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190120232705_BooksCreationAndSeeding.cs" />
+    <Compile Remove="Data\Migrations\20190120232705_BooksCreationAndSeeding.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190120232953_BooksCreationAndSeeding.cs" />
+    <Compile Remove="Data\Migrations\20190120232953_BooksCreationAndSeeding.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190130161820_CreatedObjectModels.cs" />
+    <Compile Remove="Data\Migrations\20190130161820_CreatedObjectModels.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190130162201_CreatedObjectModels.cs" />
+    <Compile Remove="Data\Migrations\20190130162201_CreatedObjectModels.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190130165459_CreatedObjectModels.cs" />
+    <Compile Remove="Data\Migrations\20190130165459_CreatedObjectModels.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190131153442_CreatedObjectModels.cs" />
+    <Compile Remove="Data\Migrations\20190131153442_CreatedObjectModels.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190131153924_CreatedObjectModels.cs" />
+    <Compile Remove="Data\Migrations\20190131153924_CreatedObjectModels.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190131154827_CreatedObjectModels.cs" />
+    <Compile Remove="Data\Migrations\20190131154827_CreatedObjectModels.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190131155125_CreatedObjectModels.cs" />
+    <Compile Remove="Data\Migrations\20190131155125_CreatedObjectModels.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190131160002_CreatedObjectModels.cs" />
+    <Compile Remove="Data\Migrations\20190131160002_CreatedObjectModels.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190131162146_CreatedObjectModels.cs" />
+    <Compile Remove="Data\Migrations\20190131162146_CreatedObjectModels.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190131164113_CreatedObjectModels.cs" />
+    <Compile Remove="Data\Migrations\20190131164113_CreatedObjectModels.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190131164547_CreatedObjectModels.cs" />
+    <Compile Remove="Data\Migrations\20190131164547_CreatedObjectModels.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190131173935_AddedIdentityUserFieldAtComment.cs" />
+    <Compile Remove="Data\Migrations\20190131173935_AddedIdentityUserFieldAtComment.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190131174243_CreatedObjectModels.cs" />
+    <Compile Remove="Data\Migrations\20190131174243_CreatedObjectModels.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190204200038_CreatedObjectModels.cs" />
+    <Compile Remove="Data\Migrations\20190204200038_CreatedObjectModels.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190204201821_CreatedObjectModels.cs" />
+    <Compile Remove="Data\Migrations\20190204201821_CreatedObjectModels.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190204203226_CreatedObjectModels.cs" />
+    <Compile Remove="Data\Migrations\20190204203226_CreatedObjectModels.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190530133314_UpdatedBookModel.cs" />
+    <Compile Remove="Data\Migrations\20190530133314_UpdatedBookModel.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190530172154_UpdatedModels.cs" />
+    <Compile Remove="Data\Migrations\20190530172154_UpdatedModels.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190530172437_UpdatedModels.cs" />
+    <Compile Remove="Data\Migrations\20190530172437_UpdatedModels.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190613170453_AddedTypeToOrderBook.cs" />
+    <Compile Remove="Data\Migrations\20190613170453_AddedTypeToOrderBook.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190613172802_AddedTypeToOrderBook.cs" />
+    <Compile Remove="Data\Migrations\20190613172802_AddedTypeToOrderBook.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190613173854_AddedTypeToOrderBook.cs" />
+    <Compile Remove="Data\Migrations\20190613173854_AddedTypeToOrderBook.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190613180012_UpdatedModels2.cs" />
+    <Compile Remove="Data\Migrations\20190613180012_UpdatedModels2.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.tools" Version="2.1.14">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Identity\Services\" />
+    <Folder Include="wwwroot\NewFolder\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Areas\Admin\Views\Books\Edit - Copy.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Admin\Views\Dashboard\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Admin\Views\Reports\TopUsers.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Admin\Views\_ViewImports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Admin\Views\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
+</Project>

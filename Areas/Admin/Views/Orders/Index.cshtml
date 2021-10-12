@@ -1,0 +1,98 @@
+﻿@using BookStore.Areas.Admin.Utils
+@model List<BookStore.Models.Orders.Order>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="page-header">
+            <h2 class="pageheader-title">Orders</h2>
+            <div class="page-breadcrumb">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="breadcrumb-link">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Orders Table</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+        <div class="card">
+            <h5 class="card-header">Total Incomes from orders</h5>
+            <div class="card-body">
+                <div class="metric-value d-inline-block">
+                    <h1 class="mb-1 text-primary">$@OrderUtil.GetTotalRevenueFromOrders(Model)</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- recent orders  -->
+    <!-- ============================================================== -->
+    <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12 col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0" style="float: left;">Orders</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="bg-light">
+                            <tr class="border-0">
+                                <th class="border-0">Nr.</th>
+                                <th class="border-0">User</th>
+                                <th class="border-0">Books Quantity</th>
+                                <th class="border-0">Price</th>
+                                <th class="border-0">Order Time</th>
+                                <th class="border-0">Status</th>
+                                <th border-0>
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                @for (var i = 0; i < Model.Count; i++)
+                                {
+                                    var order = Model.ElementAt(i);
+                                    <tr>
+                                        <td>@(1 + i)</td>
+                                        <td>
+                                            @order.User.UserName
+                                        </td>
+                                        <td>@order.TotalQuantityOfBooks()</td>
+                                        <td>$@order.TotalPriceOfOrder()</td>
+                                        <td>@order.OrderDate</td>
+                                        <td><span class="badge-dot badge-success mr-1"></span>Delivered </td>
+                                        <td>
+                                            <a asp-action="Details" asp-route-id="@order.Id">
+                                                <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                            <a asp-action="Delete" asp-route-id="@order.Id">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- end recent orders  -->
+    <!-- ============================================================== -->
+
+</div>
+

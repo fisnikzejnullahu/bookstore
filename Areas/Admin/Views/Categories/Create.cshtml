@@ -1,0 +1,40 @@
+﻿@model BookStore.Models.Categories.Category
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Create</h2>
+
+<h4>Category</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Thumbnail" class="control-label"></label>
+                <span asp-validation-for="Thumbnail" class="text-danger"></span>
+                <input class="form-control btn btn-primary mt-2" type="file" name="thumbnailFile" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label mr-3"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <input type="submit" value="Create" class="btn btn-default" />
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

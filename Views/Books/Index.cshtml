@@ -1,0 +1,184 @@
+﻿@model BookStore.Models.Books.BooksViewModel
+
+@{
+    ViewData["Title"] = "Books";
+    var prevDisabled = !Model.Books.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Books.HasNextPage ? "disabled" : "";
+}
+
+
+<form asp-action="Index" method="GET">
+    <div class="row align-items-center justify-content-center">
+        <h3>Filter books:</h3>
+        <input type="hidden" name="subjectId" value="@(ViewData["currentSubjectId"])"/>
+        <div class="col-md-2 pt-3">
+            <div class="form-group ">
+                <input type="text" name="author" class="form-control" placeholder="Author" value="@ViewData["author"]" />
+            </div>
+        </div>
+        <div class="col-md-2 pt-3">
+            <div class="form-group">
+                <input type="number" min="0" name="minPrice" placeholder="Min Price" class="form-control" value="@(int.Parse(ViewData["minPrice"].ToString()) == 0 ? "" : ViewData["minPrice"])" />
+            </div>
+        </div>
+        <div class="col-md-2 pt-3">
+            <div class="form-group">
+                <input type="number" min="1" name="maxPrice" placeholder="Max Price" class="form-control" value="@(double.Parse(ViewData["maxPrice"].ToString()).Equals(99999999) ? "" : ViewData["maxPrice"])" />
+            </div>
+        </div>
+        <div class="col-md-2 pt-3">
+            <div class="form-group">
+                <select class="form-control" name="publishedAt" asp-items="ViewBag.Years" placeholder="Choose...">
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary"><span class="fa fa-filter mr-2"></span>FILTER</button>
+                <a class="btn btn-danger " asp-action="Index"><span class="fa fa-times mr-2"></span>RESET FILTER</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<div class="row">
+    <div class="col-md-3 subjectsContainer">
+        @foreach (var c in Model.Categories)
+        {
+            <h5 class="font-weight-bold">@c.Name</h5>
+
+            foreach (var s in Model.CategorySubjects)
+            {
+                if (s != null && s.CategoryId == c.Id)
+                {
+            <div class="subject-category-item">
+                @if (s.Id.Equals(ViewData["currentSubjectId"]))
+                {
+                    <a style="text-decoration: underline; font-style: italic;" asp-action="Index" asp-route-subjectId="@s.Id">@s.Name</a>
+                }
+                else
+                {
+                    <a asp-action="Index" asp-route-subjectId="@s.Id">@s.Name</a>
+                }
+            </div>
+                }
+
+            }
+        }
+    </div>
+
+    <div class="col-md-9">
+        <form asp-action="Index" method="GET">
+            <div class="row align-items-center mt-2">
+                <input type="hidden" name="minPrice" value="@(ViewData["minPrice"])" />
+                <input type="hidden" name="maxPrice" value="@(ViewData["maxPrice"])" />
+                <input type="hidden" name="publishedAt" value="@(ViewData["publishedAt"])" />
+                <input type="hidden" name="author" value="@(ViewData["author"])" />
+                <input type="hidden" name="subjectId" value="@(ViewData["currentSubjectId"])" />
+                <div class="col-md-4 pt-3">
+                    <div class="form-group">
+                        <select id="inputState" class="form-control" name="orderBy">
+                            <option selected disabled>Order By</option>
+                            <option value="priceMinToMax">Price (min to max)</option>
+                            <option value="priceMaxToMin">Price (max to min)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" class="btn btn-dark btn-block" value="Order By">
+                </div>
+            </div>
+        </form>
+
+        <div class="row">
+            @if (Model.Books.Count == 0)
+            {
+                <p style="width: 100%; margin-top: 20px;">No Book found!</p>
+            }
+            else
+            {
+                foreach (var book in Model.Books)
+                {
+                    if (book.Active == true)
+                    {
+                        <div class="item-card">
+                            <a asp-area="" asp-controller="Books" asp-action="Details" asp-route-id="@book.Id">
+
+                                <div class="item-thumbnail">
+                                    @if (book.Thumbnail == null)
+                                    {
+                                        <img src="~/images/no_image_available.jpg" alt="Book Thumbnail"/>
+
+                                    }
+                                    else
+                                    {
+                                        <img src="~/images/@book.Thumbnail" alt="Book Thumbnail"/>
+                                    }
+                                </div>
+
+                                <div class="item-details">
+                                    <p class="title">@book.Title</p>
+                                    <p class="author">@book.Author</p>
+                                    <p class="details">@book.Description?.Substring(0, Math.Min(book.Description.Length, 50)) ...</p>
+                                    <p class="price">$@string.Format("{0:F}", book.Price)</p>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                }
+            }
+
+        </div>
+        
+        <div class="row">
+            <div class="mt-3" style="float:right;">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item @prevDisabled">
+                            <a class="page-link" asp-action="Index"
+                               asp-route-page="@(Model.Books.PageIndex - 1)"
+                               asp-route-minPrice="@(ViewData["minPrice"])"
+                               asp-route-maxPrice="@(ViewData["maxPrice"])"
+                               asp-route-publishedAt="@(ViewData["publishedAt"])"
+                               asp-route-author="@(ViewData["author"])"
+                               asp-route-subjectId="@(ViewData["currentSubjectId"])"
+                               asp-route-orderBy="@(ViewData["orderBy"])">
+                                Previous
+                            </a>
+                        </li>
+                        @for (var i = 1; i < Model.Books.TotalPages + 1; i++)
+                        {
+                            var active = (Model.Books.PageIndex == i) ? "active" : "";
+                            <li class="page-item @active">
+                                <a class="page-link" asp-action="Index"
+                                   asp-route-page="@i"
+                                   asp-route-minPrice="@(ViewData["minPrice"])"
+                                   asp-route-maxPrice="@(ViewData["maxPrice"])"
+                                   asp-route-publishedAt="@(ViewData["publishedAt"])"
+                                   asp-route-author="@(ViewData["author"])"
+                                   asp-route-subjectId="@(ViewData["currentSubjectId"])"
+                                   asp-route-orderBy="@(ViewData["orderBy"])">
+                                    @i
+                                </a>
+                            </li>
+                        }
+
+                        <li class="page-item @nextDisabled">
+                            <a class="page-link" asp-action="Index"
+                               asp-route-page="@(Model.Books.PageIndex + 1)"
+                               asp-route-minPrice="@(ViewData["minPrice"])"
+                               asp-route-maxPrice="@(ViewData["maxPrice"])"
+                               asp-route-publishedAt="@(ViewData["publishedAt"])"
+                               asp-route-author="@(ViewData["author"])"
+                               asp-route-subjectId="@(ViewData["currentSubjectId"])"
+                               asp-route-orderBy="@(ViewData["orderBy"])">
+                                Next
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

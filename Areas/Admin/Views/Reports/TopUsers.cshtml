@@ -1,0 +1,56 @@
+﻿@using BookStore.Areas.Admin.Models.Dashboard
+@model List<TopUserItem>
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@if (Model.Count > 0)
+{
+    <h2 class="mt-2 mb-4">These are top (5) users that have spent mostly!</h2>
+
+    <div class="row">
+        <!-- product sales  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12 col-12">
+            <!-- ============================================================== -->
+            <!-- top perfomimg  -->
+            <!-- ============================================================== -->
+            <div class="card">
+                <h5 class="card-header">Top Users</h5>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table no-wrap p-table">
+                            <thead class="bg-light">
+                                <tr class="border-0">
+                                    <th class="border-0">User</th>
+                                    <th class="border-0">Books bought</th>
+                                    <th class="border-0">Total Spent</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.OrderByDescending(u => u.TotalSpent))
+                                {
+                                    <tr>
+                                        <td>@item.User</td>
+                                        <td>@item.Quantity</td>
+                                        <td>$@item.TotalSpent</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end top perfomimg  -->
+            <!-- ============================================================== -->
+        </div>
+    </div>
+}
+else
+{
+    <h2 class="mt-2 mb-4">No order found!</h2>
+}

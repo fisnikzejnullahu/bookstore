@@ -1,0 +1,81 @@
+﻿@using BookStore.Areas.Admin.Utils
+@using BookStore.Models.Books
+@using BookStore.Models.OrdersBooks
+@model BookStore.Models.Orders.Order
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="offset-xl-2 col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="card">
+            <div class="card-header p-4">
+                <p class="pt-2 d-inline-block" >Order: @Model.Id</p>
+
+                <div class="float-right">
+                    <h3 class="mb-0">Date: @Model.OrderDate.ToString("MM dddd, yyyy")</h3>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-sm-6">
+                        <h5 class="mb-3">From:</h5>
+                        <h3 class="text-dark mb-1">@Model.User.UserName</h3>
+
+                        
+                    </div>
+                </div>
+                <div class="table-responsive-sm">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th class="center">Nr.</th>
+                            <th>Book</th>
+                            <th class="right">Unit Cost</th>
+                            <th class="center">Quantity</th>
+                            <th class="right">Total</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        @for (var i=0; i<Model.OrderBook.Count; i++){
+
+                            var orderbook = Model.OrderBook.ElementAt(i);
+
+                            <tr>
+                                <td class="center">@(i + 1)</td>
+                                <td class="left">@orderbook.Book.Title</td>
+                                <td class="right">$@orderbook.Book.Price</td>
+                                <td class="center">@orderbook.Quantity</td>
+                                <td class="right">$@(orderbook.Quantity * orderbook.Book.Price)</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-sm-5 ml-auto">
+                        <table class="table table-clear">
+                            <tbody>
+                                <tr>
+                                    <td class="left">
+                                        <strong class="text-dark">Total</strong>
+                                    </td>
+                                    <td class="right">
+                                        <strong class="text-dark">$@Model.TotalPriceOfOrder()</strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

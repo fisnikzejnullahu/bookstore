@@ -1,0 +1,55 @@
+﻿@using BookStore.Areas.Admin.Utils
+@using BookStore.Models.Comments
+@model BookStore.Areas.Admin.Models.BookCommentsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .dashboard-wrapper > .container-fluid {
+        width: 100%;
+        padding-right: 0px !important;
+        padding-left: 15px !important;
+        margin-right: auto !important;
+        margin-left: auto !important;
+        padding-top: 0px !important;
+    }
+</style>
+
+<partial name="_BookAsidePartial" model="@Model.Book"/>
+<div class="main-content container-fluid p-0">  
+    <div class="email-inbox-header">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="email-title">@Model.Comments.Count Comments</div>
+            </div>
+
+        </div>
+    </div>
+    
+    @if (Model != null)
+    {
+        foreach (Comment c in Model.Comments)
+        {
+
+
+            <div class="email-list">
+                <a asp-area="Admin" asp-controller="Books" asp-action="CommentDetails" asp-route-commentId="@c.Id">
+                    <div class="email-list-item email-list-item--unread">
+                        <div class="email-list-detail">
+                            @{
+                                CommentHistory ch = BooksUtil.LastEditedComment(c);
+                            }
+                            <span class="date float-right">@ch.EditedTime</span>
+                            <span class="from">@c.CreatedByUser.UserName</span>
+                            <p>@ch.Message</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    }    
+
+</div>

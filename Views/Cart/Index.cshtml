@@ -1,0 +1,116 @@
+﻿@using BookStore.Models.Utils
+@using Microsoft.EntityFrameworkCore.Internal
+@model List<CartItem>
+@{
+    ViewData["Title"] = "Cart Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@if (Model == null || Model.Count == 0)
+{
+    <h2>Your cart is empty</h2>
+    <a class="btn btn-default" asp-controller="Books" asp-action="Index">
+        <span class="fa fa-shopping-cart"></span> Shop now
+    </a>
+}
+else
+{
+    <div class="form-inline">
+        <h2 class="mr-2">Your cart</h2>
+        <a class="btn btn-danger" asp-action="Reset">
+            <span class="fa fa-remove"></span> RESET CART
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Type</th>
+                        <th>Quantity</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Total</th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="col-sm-8 col-md-6">
+                            <div class="media">
+                                <a class="thumbnail pull-left" href="#" target="_blank">
+                                    @if (item.Book.Thumbnail == null)
+                                    {
+                                        <img src="~/images/no_image_available.jpg" alt="Book Thumbnail"
+                                             class="rounded" width="72">
+                                    }
+                                    else
+                                    {
+                                        <img src="~/images/@item.Book.Thumbnail" alt="Book Thumbnail"
+                                             class="rounded" width="72">
+                                    }
+                                </a>
+                                <div class="media-body ml-3">
+                                    <h4 class="media-heading">
+                                        <a href="#">@item.Book.Title</a>
+                                    </h4>
+                                    <h5 class="media-heading"> by <a href="#">@item.Book.Author</a></h5>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="col-sm-2 col-md-2 text-center">
+                            <strong>@item.Type</strong>
+                        </td>
+                        <td class="col-sm-1 col-md-1" style="text-align: center">
+                            <input type="email" class="form-control" id="exampleInputEmail1" value="@item.Quantity" disabled="">
+                        </td>
+                        <td class="col-sm-1 col-md-1 text-center">
+                            <strong>$@item.Book.Price</strong>
+                        </td>
+                        <td class="col-sm-1 col-md-1 text-center">
+                            <strong>$@(item.Quantity * item.Book.Price)</strong>
+                        </td>
+                        <td class="col-sm-1 col-md-1">
+                            <a class="btn btn-danger" asp-action="RemoveFromCart" asp-route-bookId="@item.Book.Id">
+                                <span class="fa fa-remove"></span> Remove
+                            </a>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td>
+                        <h3>Total</h3>
+                    </td>
+                    <td class="text-right">
+                        <h3>
+                            <strong>$@BookShoppingCartUtil.TotalSumOfCart(Model)</strong>
+                        </h3>
+                    </td>
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td>
+                        <a class="btn btn-default" asp-controller="Books" asp-action="Index">
+                            <span class="fa fa-shopping-cart"></span> Continue Shopping
+                        </a>
+                    </td>
+                    <td>
+                        <a class="btn btn-success" asp-action="Checkout">
+                            Checkout
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

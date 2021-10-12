@@ -1,0 +1,58 @@
+﻿@using BookStore.Models.Orders
+@using BookStore.Areas.Admin.Utils
+@model List<Order>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@if (Model.Count > 0)
+{
+<h2 class="mb-5">My Order History:</h2>
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table">
+
+                            <thead class="bg-light">
+                                <tr class="border-0">
+                                    <th class="border-0">Nr.</th>
+                                    <th class="border-0">Books Quantity</th>
+                                    <th class="border-0">Price</th>
+                                    <th class="border-0">Order Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (var i = 0; i < Model.Count; i++)
+                                {
+                                    var order = Model.ElementAt(i);
+                                    <tr>
+                                        <td>@(1 + i)</td>
+                                        <td>@order.TotalQuantityOfBooks()</td>
+                                        <td>$@order.TotalPriceOfOrder()</td>
+                                        <td>@order.OrderDate</td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tr>
+                                <td colspan="4">I've total spended buying books: <b>$@OrderUtil.GetTotalRevenueFromOrders(Model)</b></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- end recent orders  -->
+        <!-- ============================================================== -->
+
+    </div>
+
+}
+else
+{
+    <h1>No Order found!</h1>
+}

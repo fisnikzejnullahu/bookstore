@@ -1,0 +1,433 @@
+﻿/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-top: 20px;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
+.required-msg {
+    font-weight: bold;
+}
+
+.item-card {
+    margin: 10px;
+    border-radius: 4px;
+    width: 230px;
+    min-height: 430px;
+    padding: 10px;
+    cursor: pointer;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    box-shadow: 0 2px 55px rgba(0,0,0,0.1);
+    
+    transition: all .2s ease-in-out;
+}
+
+.item-card:hover {
+    transform: scale(1.05);
+}
+
+.item-card a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.item-thumbnail {
+    margin-bottom: 20px;
+}
+
+.item-thumbnail img {
+    width: 100%;
+}
+.item-details {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+}
+
+.item-details .title {
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 0;
+    margin-bottom: 0px;
+}
+.item-details .author, .bookCategory {
+    font-size: 14px;
+    color: #969696;
+}
+
+.item-details .style {
+    font-size: 16px;
+}
+
+.item-details .old-price {
+    color: #f00;
+    text-decoration: line-through;
+}
+
+.item-details .price {
+    font-weight: bold;
+}
+
+.subject-category-item {
+    font-size: 10px;
+    line-height: 21px;
+}
+
+.subject-category-item span {
+    margin-left: 5px;
+    color: #d8d9da;
+}
+
+.checked-star {
+    color: orange;
+}
+
+#example4 tr td:first-child{
+    text-align: center;
+    width: 50px;
+}
+#example4 tr td:last-child {
+    text-align: center;
+}
+
+#example4 tr td:last-child a{
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+#example4 tr td:last-child a i.fa-pencil-alt {
+    color: #feca57 !important;
+}
+
+#example4 tr td:last-child a i.fa-info-circle {
+    color: #10ac84 !important;
+}
+
+
+#example4 tr td:last-child a i.fa-trash {
+    color: #ee5253 !important;
+}
+
+#example4 tr td:last-child a:last-child {
+    margin-right: 0px;
+}
+
+#example4 tr th:first-child {
+    text-align: center;
+}
+
+.aside-header .title {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.aside-nav .nav li.active a, .aside-nav .nav li.active i {
+    color: #0984e3;
+}
+
+
+.subjectsContainer, .item-card {
+    margin-top: 20px;
+}
+
+.subject-category-item {
+    font-size: 14px;
+}
+
+.categoryList {
+    list-style: none;
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+
+.categoryItem img {
+    margin: 0px auto;
+    width: 100%;
+    margin-bottom: 10px;  
+}
+
+.categoryItem .item {
+    background: #eee;
+    box-shadow: none;
+}
+.categoryItem h3 {
+    padding: 10px;
+    font-weight: 600;
+    color: #007bff;
+}
+
+.categoryItem a {
+    text-decoration: none !important;
+
+}
+
+.categoryList li a:hover {
+    text-decoration: underline !important;
+}
+
+.breadcrumb-item {
+    color: #cdcdcd;
+}
+
+.imageHolder img {
+    width: 100%;
+    text-align: center;
+}
+
+.titleHolder {
+    font-weight: 600;
+    color: #414245;
+    margin-bottom: 20px;
+}
+
+.authorHolder {
+    color: #0984e3;
+    font-size: 18px;
+}
+.bookInfoHolder {
+    color: #414245;
+    font-weight: 300;
+    font-size: 14px;
+}
+.bookInfoHolder span {
+    display: inline-block;
+    margin-right:20px;
+}
+.bookInfoHolder span:after {
+    content: "\007C";
+    position: relative;
+    right: -10px;
+}
+.bookInfoHolder span:last-child:after {
+    content: ""
+}
+.bookDetailsHolder {
+    margin-top: 20px;
+}
+.bookDetailsHolder h2 {
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.buyBtn {
+    background: none;
+    border: none;
+    display: inline-block;
+    width: 90%;
+    padding: 10px 30px;
+    background: #212529;
+    margin-top: 30px;
+    color: #fff;
+}
+
+.buyBtn:hover {
+    color: #fff;
+    text-decoration: none;
+    background: #5f6166;
+}
+
+.priceContainer {
+    margin: 0px auto;
+    text-align: center;
+    border: 1px solid #414245;
+    padding: 50px 0px;
+}
+
+.bookPrice {
+    font-weight: 600;
+}
+
+.subjectsContainer h5 {
+    font-weight: 600 !important;
+    margin-top: 20px;
+    
+}
+.subjectsContainer h5:first-child {
+    margin-top: 0px;
+}
+
+.subjectsContainer h5 a {
+    color: #414245;
+    text-decoration: none;
+}
+
+.subjectsContainer h5 a:hover {
+    color: #5f6166;
+    text-decoration: none;
+
+}
+
+.subjectsContainer a {
+    color: #414245;
+    
+}
+.subjectsContainer a:hover {
+  text-decoration: underline
+}
+.descriptionHolder {
+    margin-bottom: 30px;
+}
+.commentHolder .thumbnail a {
+    text-decoration: none !important;
+}
+div.commentHolder > h2 {
+    margin-bottom: 30px;
+}
+.commentHolder .thumbnail h1 {
+    border: 3px solid #414245;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    font-weight: 400;
+    color: #007bff;
+    margin: 0px;
+    text-decoration: none !important;
+    cursor: pointer;
+    font-family: arial;
+}
+.commentHolder .usernameHolder {
+    font-weight: 600;
+    font-size: 18px;
+    color: #414245;
+}
+
+.commentHolder .createdDate {
+    font-weight: 400;
+    font-size: 12px;
+    color: #888;
+    vertical-align: middle;
+    line-height: 3px;
+}
+
+.commentHolder .settingsHolder {
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+.commentHolder .settingsHolder a {
+    margin-right: 10px;
+    color: #414245
+}
+
+.commentHolder .settingsHolder a:hover:first-child {
+    color: #feca57;
+}
+.commentHolder .settingsHolder a:hover:nth-child(2) {
+    color: #10ac84;
+}
+.commentHolder .settingsHolder a:hover:last-child {
+    color: #ee5253;
+}
+
+.modal .editedDate {
+    font-size: 14px;
+    color: #888;
+    margin-top: 5px;
+}
+
+.modal .row:not(:last-child) {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.modal .message {
+    font-size: 18px;
+    color: #414245;
+    font-weight: 400;
+}
+
+.writeComment {
+    margin-bottom: 20px;
+}
+
+#commentForm textarea{
+    resize: none;
+}
+.commentMessage, .modal-body {
+    word-wrap: break-word;
+}
+
+.email-list-item, .email-body {
+    word-break: break-all;
+} 
+#commentForm > input.btn.btn-primary {
+    float: right;
+    margin-top: 20px;
+}
+
+.editArea {
+    resize: none;
+}
+
+.mainDetails.row {
+    margin-right: 0px; 
+}
+
+.rateForm {
+    padding: 0px;
+}
+
+#rateFormGroup {
+    width: 50%;
+
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+}
+
+.categ-item {
+    cursor: pointer;
+}
+
+.categ-item:hover {
+    transform: scale(1.05);
+}
+
+.admin-subject-item:hover {
+    background-color: #feca57;
+}
+
+.admin-subject-item:focus {
+    background-color: #feca57;
+}

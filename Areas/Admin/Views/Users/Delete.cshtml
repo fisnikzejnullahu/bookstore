@@ -1,0 +1,44 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model Microsoft.AspNetCore.Identity.IdentityUser
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this user?</h3>
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Email
+        </dt>
+        <dd>
+            @Model.Email
+        </dd>
+        <dt>
+            Role
+        </dt>
+        @{
+            var role = UserManager.GetRolesAsync(Model).Result.ElementAtOrDefault(0);
+            if (role == null)
+            {
+                <dd>No Role asigned!</dd>       
+            }
+            else
+            {
+                <dd>@role</dd>
+            }
+        }
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

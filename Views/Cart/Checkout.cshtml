@@ -1,0 +1,78 @@
+﻿@using System.Globalization
+@model int
+@{
+    ViewData["Title"] = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var totalPaymentPrice = ViewData["totalPaymentPrice"];
+}
+
+<style>
+    .card {
+        border: 0;
+    }
+</style>
+
+<div class="row">
+
+        <article class="card">
+            <div class="card-body p-5">
+                <h2>Payment</h2>
+
+                <form role="form" asp-action="Pay" method="post">
+                    <div class="form-group">
+                        <label for="username">Full name (on the card)</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                            </div>
+                            <input type="text" class="form-control" name="username" placeholder="" required="">
+                        </div> <!-- input-group.// -->
+                    </div> <!-- form-group.// -->
+
+                    <div class="form-group">
+                        <label for="cardNumber">Card number</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-credit-card"></i></span>
+                            </div>
+                            <input type="text" class="form-control" name="cardNumber" placeholder="" required>
+                        </div> <!-- input-group.// -->
+                    </div> <!-- form-group.// -->
+
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <label><span class="hidden-xs">Expiration</span> </label>
+                                <div class="form-inline">
+                                    <select class="form-control" style="width: 45%">
+                                        <option>Month</option>
+                                        @for (Int16 i = 0; i < 12; i++)
+                                        {
+                                            <option value="@i">@DateTimeFormatInfo.InvariantInfo.MonthNames[i]</option>
+                                        }
+                                    </select>
+                                    <span style="width:10%; text-align: center"> / </span>
+                                    <select class="form-control" style="width: 45%">
+                                        <option>Year</option>
+                                        @for (Int16 i = 0; i < 35; i++)
+                                        {
+                                        <option value="@i">@(DateTime.Now.Year + i)</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label data-toggle="tooltip" title="" data-original-title="3 digits code on back side of the card">CVV <i class="fa fa-question-circle"></i></label>
+                                <input class="form-control" required="" type="text">
+                            </div>
+                        </div>
+                    </div> <!-- row.// -->
+                    <input type="submit" class="btn btn-primary btn-block" value="Pay ( $@totalPaymentPrice )">
+                </form>
+            </div> <!-- card-body.// -->
+        </article> <!-- card.// -->
+
+
+</div>

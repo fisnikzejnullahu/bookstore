@@ -1,0 +1,21 @@
+﻿@model BookStore.Models.Books.Book
+<aside class="page-aside">
+    <div class="aside-content">
+        <div class="aside-header">
+            <a asp-area="Admin" asp-controller="Books" asp-action="Index"><span class="icon"><i class="fas fa-arrow-left"></i>Back to list</span></a>
+            <button class="navbar-toggle" data-target=".aside-nav" data-toggle="collapse" type="button"><span class="icon"><i class="fas fa-caret-down"></i></span></button><span class="title">@Html.DisplayFor(model => model.Title)</span>
+            <p class="description">ISBN: @Html.DisplayFor(model => model.Isbn)</p>
+        </div>
+
+        <div class="aside-nav collapse">
+            <ul class="nav">
+                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Details" ? "active" : "")"><a asp-area="Admin" asp-controller="Books" asp-action="Details" asp-route-id="@Model.Id"><span class="icon"><i class="fas fa-info-circle"></i></span>Details</a></li>
+                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Orders" ? "active" : "")"><a asp-area="Admin" asp-controller="Books" asp-action="Orders" asp-route-id="@Model.Id"><span class="icon"><i class="fas fa-shopping-cart"></i></span>Orders</a></li>
+                <li class="@((ViewContext.RouteData.Values["Action"].ToString() == "Comments" || ViewContext.RouteData.Values["Action"].ToString() == "CommentDetails") ? "active" : "")"><a asp-area="Admin" asp-controller="Books" asp-action="Comments" asp-route-id="@Model.Id"><span class="icon"><i class="fas fa-comments"></i></span>Comments</a></li>
+                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Rates" ? "active" : "")"><a asp-area="Admin" asp-controller="Books" asp-action="Rates"  asp-route-id="@Model.Id"><span class="icon"><i class="fas fa-star"></i></span>Rates</a></li>
+                <li><a asp-controller="Books" asp-action="Delete" asp-route-id="@Model.Id" style="color: #f00;"><span class="icon" style="color: #f00;"><i class="fas fa-fw fa-trash"></i></span>Delete Book</a></li>
+            </ul>
+
+        </div>
+    </div>
+</aside>

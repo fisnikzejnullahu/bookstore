@@ -1,0 +1,155 @@
+﻿@using BookStore.Areas.Admin.Utils
+@model BookStore.Areas.Admin.Models.Dashboard.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="ecommerce-widget">
+    <div class="row">
+        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="card border-3 border-top border-top-primary">
+                <div class="card-body">
+                    <h5 class="text-muted">Total Users</h5>
+                    <div class="metric-value d-inline-block">
+                        <h1 class="mb-1">@Model.TotalUsers</h1>
+                    </div>
+                    <div class="metric-label d-inline-block float-right text-primary font-weight-bold">
+                        <span><a asp-controller="Users" asp-action="Index">Details</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="card border-3 border-top border-top-primary">
+                <div class="card-body">
+                    <h5 class="text-muted">Total Books</h5>
+                    <div class="metric-value d-inline-block">
+                        <h1 class="mb-1">@Model.TotalBooks</h1>
+                    </div>
+                    <div class="metric-label d-inline-block float-right text-primary font-weight-bold">
+                        <span><a asp-controller="Books" asp-action="Index">Details</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="card border-3 border-top border-top-primary">
+                <div class="card-body">
+                    <h5 class="text-muted">Total Orders</h5>
+                    <div class="metric-value d-inline-block">
+                        <h1 class="mb-1">@Model.TotalOrders</h1>
+                    </div>
+                    <div class="metric-label d-inline-block float-right text-primary font-weight-bold">
+                        <span><a asp-controller="Orders" asp-action="Index">Details</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="card border-3 border-top border-top-primary">
+                <div class="card-body">
+                    <h5 class="text-muted">This Month's Revenue</h5>
+                    @{ 
+                        var diff = Model.CalculateRevenueMonth();
+                    }
+                    <div class="metric-value d-inline-block">
+                        <h1 class="mb-1">$@Model.ThisMonthRevenueFromOrders</h1>
+                    </div>
+                    @{
+
+                        if (diff != Double.PositiveInfinity)
+                        {
+                            if (diff >= 0)
+                            {
+                                if (Model.Orders.Count > 0)
+                                {
+                                    <div class="metric-label d-inline-block float-right text-success font-weight-bold"
+                                         data-toggle="tooltip" data-original-title="difference with month before">
+                                        <span><i class="fa fa-fw fa-arrow-up"></i></span>
+                                        <span>@Math.Round(diff, 2)</span>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                if (Model.Orders.Count > 0)
+                                {
+                                    <div class="metric-label d-inline-block float-right text-secondary font-weight-bold"
+                                         data-toggle="tooltip" data-original-title="difference with month before">
+                                        <span><i class="fa fa-fw fa-arrow-down"></i></span>
+
+                                        <span>@Math.Round(diff, 2)</span>
+
+                                    </div>
+                                }
+                            }
+                        }
+                    }
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- recent orders  -->
+        <!-- ============================================================== -->
+        <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12 col-12">
+            <div class="card">
+                <h5 class="card-header">Recent Orders</h5>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="bg-light">
+                                <tr class="border-0">
+                                    <th class="border-0">Nr.</th>
+                                    <th class="border-0">User</th>
+                                    <th class="border-0">Books Quantity</th>
+                                    <th class="border-0">Price</th>
+                                    <th class="border-0">Order Time</th>
+                                    <th class="border-0">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var recentOrders = (Model.Orders.Count >= 5) ? Model.Orders.GetRange(0, 5) : Model.Orders;
+                                }
+
+                                @if (recentOrders.Count == 0)
+                                {
+                                    <tr>
+                                        <td colspan="9" style="text-align: center;"><h4>No order found!</h4></td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    @for (var i=0; i< recentOrders.Count; i++){
+                                        var order = recentOrders.ElementAt(i);
+                                         <tr>
+                                             <td>@(1 + i)</td>
+                                             <td>
+                                                 @order.User.UserName
+                                             </td>
+                                             <td>@order.TotalQuantityOfBooks()</td>
+                                             <td>$@order.TotalPriceOfOrder()</td>
+                                             <td>@order.OrderDate</td>
+                                             <td><span class="badge-dot badge-success mr-1"></span>Delivered </td>
+                                         </tr>
+                                     }
+                                    <tr>
+                                        <td colspan="9"><a asp-area="Admin" asp-controller="Orders" asp-action="Index" class="btn btn-outline-light float-right">View Details</a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- end recent orders  -->
+        <!-- ============================================================== -->
+        
+    </div>
+</div>

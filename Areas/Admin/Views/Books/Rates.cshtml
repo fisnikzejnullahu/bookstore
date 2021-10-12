@@ -1,0 +1,69 @@
+﻿@using BookStore.Areas.Admin.Utils
+@using BookStore.Models.Rates
+@model BookStore.Models.Books.Book
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .dashboard-wrapper > .container-fluid {
+        width: 100%;
+        padding-right: 0px !important;
+        padding-left: 15px !important;
+        margin-right: auto !important;
+        margin-left: auto !important;
+        padding-top: 0px !important;
+    }
+</style>
+
+<partial name="_BookAsidePartial"/>
+<div class="main-content container-fluid p-0">
+    <div class="email-inbox-header">
+        <div class="row">
+            <div class="col-lg-6">
+                @if (Model.Rates.Count == 0)
+                {
+                    <div class="email-title">
+                        0 Rates
+                    </div>
+                }
+                else
+                {
+                    <div class="email-title">
+                        @Model.Rates.Count Rates - (Average: @RatesUtil.AverageRate(Model) of 5)
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    @if (Model.Rates != null)
+    {
+        foreach (Rate r in Model.Rates)
+        {
+            <div class="email-list">
+                <div class="email-list-item email-list-item--unread rate">
+                    <div class="email-list-detail">
+                        <span class="date float-right">
+                            @for (var i = 0; i < @r.Value; i++)
+                            {
+                                <span class="fa fa-star checked-star"></span>
+                            }
+                            @for (var i = 0; i < 5 - @r.Value; i++)
+                            {
+                                <span class="fa fa-star"></span>
+                            }
+                            |
+                            <a asp-area="Admin" asp-controller="Rates" asp-action="Delete" asp-route-rateId="@r.Id" asp-route-bookId="@Model.Id" 
+                               onclick="return confirm('Are you sure you want to delete this rate?');" style="color: #f00">DELETE</a>
+                        </span>
+                        <span class="from">@r.User.UserName</span>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+</div>

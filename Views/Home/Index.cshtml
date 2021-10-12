@@ -1,0 +1,42 @@
+﻿@using System.IO
+@using Microsoft.AspNetCore.Http
+@model List<BookStore.Models.Categories.Category>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h3>Browse our categories</h3>
+<hr />
+
+@if (Model.Count == 0)
+{
+    <h2>There are no Categories</h2>
+
+} else
+{
+    <div class="row">
+        @foreach(var c in Model)
+        {
+            <div class="col-3 categoryItem">
+                <div class="item">
+                    <h3>
+                        <a asp-area="" asp-controller="Books" asp-action="Index">
+                            @if (c.Thumbnail == null)
+                            {
+                                <img src="~/images/no_image_available.jpg" alt="Book Thumbnail" style="height: 130px;"/>
+
+                            }
+                            else
+                            {
+                                <img src="~/images/@c.Thumbnail" style="height: 130px;" alt="Book Thumbnail" />
+
+                            }
+                            @c.Name
+                        </a>
+                    </h3>
+                </div>
+            </div>
+        }
+    </div>
+}
+

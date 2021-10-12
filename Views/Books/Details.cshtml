@@ -1,0 +1,346 @@
+﻿@using System.Security.Claims
+@using BookStore.Areas.Admin.Utils
+@using BookStore.Models.Comments
+@using Microsoft.AspNetCore.Identity
+
+@model BookStore.Models.Books.BookDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var isLoggedIn = User.Identity.IsAuthenticated;
+    var loggedUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+}
+<div class="breadcrumb">
+    <span class="breadcrumb-item">
+    @if (Model.Book.CategorySubject.Category != null)
+    {
+        <a asp-area="" asp-controller="Categories" asp-action="Details" asp-route-id="@Model.Book.CategorySubject.CategoryId">
+            @Model.Book.CategorySubject.Category.Name
+        </a>
+    }
+    </span>
+    <span class="breadcrumb-item">
+        @if(Model.Book.CategorySubject != null){
+            <a asp-area="" asp-controller="CategorySubjects" asp-action="Details" asp-route-id="@Model.Book.CategorySubject.Id">
+                @Model.Book.CategorySubject.Name
+            </a>
+        }
+    </span>
+    <span class="breadcrumb-item active">
+        <span style="color: #7d7d7d">
+            @Model.Book.Title
+        </span>
+    </span>
+</div>
+
+<div class="Container">
+    <div class="mainDetails row">
+        <div class="col-md-2">
+            <div class="imageHolder ">
+                @if (Model.Book.Thumbnail == null)
+                {
+                    <img src="~/images/no_image_available.jpg" alt="Book Thumbnail" />
+
+                }
+                else
+                {
+                    <img src="~/images/@Model.Book.Thumbnail" alt="Book Thumbnail" />
+                }
+            </div>
+
+        </div>
+        <div class="col-md-7 main-data">
+            <h2 class="titleHolder">@Model.Book.Title</h2>
+            <h4 class="authorHolder">@Model.Book.Author</h4>
+            <p class="bookInfoHolder">
+                <span>ISBN: @Model.Book.Isbn</span>
+                <span>@Model.Book.PublishedDate.ToString("MMMM") @Model.Book.PublishedDate.ToString("yyyy")</span>
+            </p>
+            <p class="ratesHolder">
+                @{ var rate = RatesUtil.AverageRate(@Model.Book); }
+                <span>@rate</span>
+
+                @if (Math.Floor(rate) < rate)
+                {
+                    for (var i = 0; i < 5; i++)
+                    {
+                        if (i < Math.Floor(rate))
+                        {
+                            <span> <i class="fas fa-star"></i> </span>
+                        }
+                        else if (i == Math.Floor(rate))
+                        {
+                            <span> <i class="fas fa-star-half-alt"></i> </span>
+                        }
+                        else
+                        {
+                            <span> <i class="far fa-star"></i> </span>
+                        }
+
+
+                    }
+                }
+                else
+                {
+                    for (var i = 0; i < 5; i++)
+                    {
+                        if (i < rate)
+                        {
+                            <span> <i class="fas fa-star"></i> </span>
+                        }
+                        else
+                        {
+                            <span> <i class="far fa-star"></i> </span>
+                        }
+
+                    }
+                }
+                <span> : (@Model.Book.Rates.Count - Ratings)</span>
+            </p>
+            @if (isLoggedIn)
+            {
+                foreach (var r in Model.Book.Rates)
+                 {
+                     if (loggedUserId.Equals(r.UserId))
+                     {
+                         <span>Your rate: @r.Value</span>
+                         
+                     }
+                 }
+                <div class="form-group"> 
+                     <form asp-controller="Books" asp-action="AddRate" method="post">
+                         <div class="input-group" id="rateFormGroup">
+                             <input class="form-control" type="hidden" name="bookId" value="@Model.Book.Id" />
+                             <input class="form-control" type="hidden" name="userId" value="@loggedUserId" />
+                             
+                             <select class="form-control" name="value" required>
+                                 <option disabled value="" selected> Please select</option>
+                                 <option value="1">1</option>
+                                 <option value="2">2</option>
+                                 <option value="3">3</option>
+                                 <option value="4">4</option>
+                                 <option value="5">5</option>
+                             </select>
+                             <div class="input-group-append">
+                                 <input class="form-control" type="submit" value="Rate" />
+                             </div>
+                         </div>
+                     </form>
+                </div>
+            }
+           
+        </div>
+        <div class="priceContainer col-md-3">
+            <h2>Book Price: <span class="bookPrice">$@Model.Book.Price</span> </h2>
+            <form asp-controller="Cart" asp-action="AddToCart">
+                <input type="hidden" name="bookId" value="@Model.Book.Id" />
+                Quantity <input type="number" min="1" max="100" name="quantity" value="1" />
+                <input type="submit" class="buyBtn" value="Add to cart">
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="bookDetailsHolder col-md-9">
+            <div class="descriptionHolder">
+                <h2>Description</h2>
+                <p>
+
+                    @if (Model.Book.Description != null)
+                    {
+                        @Model.Book.Description
+                    }
+                    else
+                    {
+                        <span>This book has no description.</span>
+                    }
+                </p>
+            </div>
+            <div class="commentHolder">
+                <h2>Comments: </h2>
+                @if (isLoggedIn)
+                {
+                    <div class="row writeComment">
+                        <div class="col-md-1 thumbnail">
+                            <a>
+                                <h1 style="color: #@loggedUserId.ToUpper().Substring(0, 6)">
+                                    @User.Identity.Name.ToUpper().Substring(0, 1)
+                                </h1>
+                            </a>
+                        </div>
+                        <div class="col-md-11">
+                            <form asp-controller="Books" asp-action="AddComment" method="post" id="commentForm">
+                                <input type="hidden" name="BookId" value="@Model.Book.Id"/>
+                                <textarea type="text" class="form-control" name="comment" placeholder="Write a comment about this book ..." rows="4"></textarea>
+                                <input class="btn btn-primary" type="submit"/>
+                                <input name="__RequestVerificationToken" type="hidden"/>
+                            </form>
+                        </div>
+                    </div>
+                }
+                    @if (Model != null)
+                    {
+                        
+                        var commentModalId = 0;
+                        foreach (var c in Model.Comments)
+                        {
+                            var ch = BooksUtil.LastEditedComment(c);
+
+                            <div class="row">
+                                <div class="col-md-1 thumbnail">
+                                    <a>
+                                        <h1 style="color:#@c.CreatedByUser.Id.ToUpper().Substring(0, 6)">
+                                            @c.CreatedByUser.UserName.ToUpper().Substring(0, 1)
+                                        </h1>
+                                    </a>
+                                </div>
+                                <div class="col-md-11">
+                                    <h3 class="usernameHolder">
+                                        @{
+                                            var tempname = c.CreatedByUser.UserName;
+                                            var name = "";
+                                            for (var i = 1; i <= tempname.Length; i++)
+                                            {
+                                                if (tempname[i - 1] == '@')
+                                                {
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    name += tempname[i - 1];
+                                                }
+                                            }
+                                        }
+                                        @name
+                                        <span class="createdDate">
+                                            -@c.CreatedDate.ToLongDateString()
+                                        </span>
+                                        <span class="settingsHolder">
+                                            @{
+                                                var showSettings = false;
+                                            }
+                                            @if (c.CreatedByUserId.Equals(loggedUserId))
+                                            {
+                                                showSettings = true;
+                                            }
+
+                                            @if (showSettings)
+                                            {
+                                                <a href="#" data-toggle="modal" data-target="#edit-@commentModalId-modal"><i class="fas fa-pencil-alt"></i></a>
+                                                <a href="#" data-toggle="modal" data-target="#comment-@commentModalId-modal"><i class="fas fa-history"></i></a>
+                                                <a href="#" data-toggle="modal" data-target="#delete-@commentModalId-modal"><i class="fas fa-ban"></i></a>
+                                            }
+                                            else
+                                            {
+
+                                            }
+
+                                        </span>
+                                    </h3>
+                                    <p class="commentMessage">
+                                        @ch.Message
+                                    </p>
+                                    @if (showSettings)
+                                    {
+                                        <div class="modal fade" id="edit-@commentModalId-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Edit Comment</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <form asp-area="" asp-controller="Books" asp-action="EditComment" method="post" id="editForm">
+                                                        <div class="modal-body">
+                                                            <h2>Comment edit.</h2>
+                                                            
+                                                                <input type="hidden" name="BookId" value="@Model.Book.Id" />
+                                                                <input type="hidden" name="commentId" value="@c.Id" />
+                                                                <textarea type="text" class="form-control editArea" name="newCommentMsg" rows="11">@ch.Message</textarea>
+                                                                
+                                                            
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input class="btn btn-primary" type="submit" value="Edit" />
+                                                            <input name="__RequestVerificationToken" type="hidden" />
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                     </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal fade" id="comment-@commentModalId-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Comment History</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        @{
+                                                            var commentHistories = c.CommentHistory
+                                                                .OrderByDescending(s => s.EditedTime)
+                                                                .ToList();
+
+                                                        }
+                                                        @foreach (var cm in commentHistories)
+                                                        {
+                                                            <div class="row">
+                                                                <div class="col-md-2">
+                                                                    <h4 class="editedDate">@cm.EditedTime.ToShortDateString()</h4>
+                                                                    <h4 class="editedDate">@cm.EditedTime.ToShortTimeString()</h4>
+                                                                </div>
+                                                                <div class="col-md-10">
+                                                                    <h4 class="message">@cm.Message</h4>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal fade" id="delete-@commentModalId-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Delete Comment</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <h2>Are you sure you want to Delete this comment?</h2>
+                                                        @ch.Message
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a asp-area="" asp-controller="Books" asp-action="DeleteComment" asp-route-commentId="@c.Id" asp-route-bookId="@Model.Book.Id" class="btn btn-danger">Delete</a>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        commentModalId++;
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    validateTypeBook();
+</script>

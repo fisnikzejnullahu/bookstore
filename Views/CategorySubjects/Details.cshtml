@@ -1,0 +1,62 @@
+﻿@model BookStore.Models.CategorySubjects.SubjectViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Subject: @Model.Subject.Name</h2>
+    <div class="row">
+        <div class="col-md-3 subjectsContainer">
+            <h5 class="font-weight-bold">Subjects in this category</h5>
+            
+            @foreach (var s in Model.Subjects)
+            {
+                if (s.CategoryId == Model.Subject.CategoryId)
+                {
+                    <div class="subject-category-item">
+                        <a asp-area="" asp-controller="CategorySubjects" asp-action="Details" asp-route-Id="@s.Id">@s.Name</a> <span> (@s.Books.Count)</span>
+                    </div> 
+                }
+                
+            }
+            <div class="subject-category-item">
+                <a asp-area="" asp-controller="Categories" asp-action="Details" asp-route-Id="@Model.Subject.CategoryId">All</a>
+            </div> 
+        </div>
+
+        <div class="col-md-9">
+            <div class="row">
+                @if (Model.Subject.Books == null || Model.Subject.Books.Count == 0)
+            {
+                <p style="width: 100%; margin-top: 20px;">There are no Books in this subject yet.</p>
+                <br/>
+                <a asp-area="" asp-controller="Home" asp-action="Index">Return to Homepage</a>
+            }
+            else
+            {
+                foreach (var book in Model.Subject.Books)
+                {
+                    <div class="item-card">
+                        <a asp-area="" asp-controller="Books" asp-action="Details" asp-route-id="@book.Id">
+
+                            <div class="item-thumbnail">
+                                <img src="~/images/@book.Thumbnail" alt="book-thumbnail">
+                            </div>
+
+                            <div class="item-details">
+                                <p class="title">@book.Title</p>
+                                <p class="author">@book.Author</p>
+                                <p class="details">@book.Description?.Substring(0,Math.Min(book.Description.Length,50)) ...</p>
+
+                            </div>
+                        </a>
+                    </div>
+                }
+            }
+
+            </div>
+        </div>
+    </div>
+    
