@@ -1,6 +1,19 @@
 # Bookstore
 A web application for online book store. Built using ASP.NET Core 2.1 (MVC).
 
+## Screenshots
+
+Books Search             |  Book ViewPage
+:-------------------------:|:-------------------------:
+![](./images/filtering.png)  |  ![](./images/book-view.png)
+Admin Dashboard             |  Admin - Table of Books
+![](./images/dashboard.png)  |  ![](./images/books-table.png)
+Admin - Book Details             |  Admin - Book Orders
+![](./images/book-details.png)  |  ![](./images/book-orders.png)
+Admin - Book Comments             |  Admin - Orders
+![](./images/book-comments.png)  |  ![](./images/books.png)
+Admin - Order Details             |  Admin Report - Top Sold Books 
+![](./images/order-details.png)  |  ![](./images/top-books-report.png)
 
 ## How to run the application
 BookStore requires MSSQL Server running. You should enter connection info about MSSQL Server in `appsettings.json` file. In this file you should modify `BookStoreContextConnection` value and replacing it with you MSSQL Server connection info.
